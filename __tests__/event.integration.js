@@ -8,7 +8,7 @@ import HTTPStatus from 'http-status';
 import mongoose from 'mongoose'
 import request from 'supertest'
 
-import app from '../../src'
+import app from '../src'
 
 describe('Test /api/event endpoints', () => {
   const mockEvent = {
