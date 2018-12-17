@@ -39,7 +39,9 @@ describe('Test /api/event endpoints', () => {
       }))
 
     it('testing /api/event/:id GET:: Should return existing document', () => request(app)
-      .get('/api/event/5c15b131eab47d2306ef67e1')
+      .post('/api/event')
+      .send(mockEvent)
+      .then((result) => request(app).get(`/api/event/${result.body._id}`))
       .then((result) => {
         expect(result.statusCode).toBe(HTTPStatus.OK)
         expect(typeof result.body).toBe('object')
@@ -75,12 +77,14 @@ describe('Test /api/event endpoints', () => {
       }))
 
     it('testing /api/event:id PUT:: Should return updated document', () => request(app)
-      .put(`/api/event/5c15b152eab47d2306ef67e2`)
-      .send({
-        name: 'Name to be changed',
-        startDate: '2018-12-16T01:58:31.066Z',
-        endDate: '2459-07-26T19:45:10.699Z',
-      })
+      .post('/api/event')
+      .send(mockEvent)
+      .then((result) => request(app).put(`/api/event/${result.body._id}`)
+        .send({
+          name: 'Name to be changed',
+          startDate: '2018-12-16T01:58:31.066Z',
+          endDate: '2459-07-26T19:45:10.699Z',
+        }))
       .then((result) => {
         expect(result.statusCode).toBe(HTTPStatus.OK)
         expect(result.body.name).toBe('Name to be changed')
